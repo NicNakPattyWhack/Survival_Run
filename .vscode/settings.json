@@ -1,0 +1,17 @@
+{
+    "editor.snippetSuggestions": "inline",
+    "editor.suggest.matchOnWordStartOnly": true,
+    "editor.suggest.showEnums": true,
+    "editor.suggest.showEvents": true,
+    "editor.suggest.showFiles": true,
+    "editor.suggest.showFolders": true,
+    "editor.suggest.showIcons": true,
+    "editor.suggest.showInlineDetails": true,
+    "editor.suggest.showMethods": true,
+    "editor.suggest.showModules": true,
+    "editor.suggest.showProperties": true,
+    "editor.suggest.showInterfaces": true,
+    "breadcrumbs.showInterfaces": true,
+    "outline.showInterfaces": true,
+    "typescript.implementationsCodeLens.enabled": false
+}
