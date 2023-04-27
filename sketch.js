@@ -9,12 +9,6 @@ var player;
 var features = [];
 let chunks = [];
 var selectedChunk;
-let chunkx;
-let chunky;
-let grass = [];
-let trees = [];
-let rocks = [];
-let items = [];
 let slots = [];
 let plusone = [];
 let vignette;
@@ -168,6 +162,8 @@ function draw() {
 
 function mousePressed() {
   player.punch();
+
+  // for (let )
 }
 
 function keyPressed() {
