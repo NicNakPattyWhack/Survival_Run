@@ -1,20 +1,20 @@
 var w;
 var h;
 var seed;
-var size = 64;
+var worldSize = 64;
 var chunkSize = 256;
 var viewDist = 2;
 var maxStack = 200;
 var player;
 var features = [];
-let chunks = [];
-var selectedChunk;
-let slots = [];
-let plusone = [];
-let vignette;
-let showVignette = false;
-let displayDebug = false;
-let fs = false;
+var chunks = [];
+var chunksSelected = [];
+var slots = [];
+var plusone = [];
+var vignette;
+var showVignette = false;
+var displayDebug = false;
+var fs = false;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -33,9 +33,9 @@ function setup() {
 
   player = new Player(0, 0);
 
-  for (let i = 0; i < size; i++) {
+  for (let i = 0; i < worldSize; i++) {
     chunks[i] = [];
-    for (let j = 0; j < size; j++) {
+    for (let j = 0; j < worldSize; j++) {
       chunks[i].push(new Chunk(i, j));
     }
   }
@@ -68,7 +68,17 @@ function draw() {
   background(82, 148, 44);
   strokeWeight(4);
 
-  chunkSelected = chunks[player.chunk.x][player.chunk.y];
+  chunksSelected = [];
+  chunksSelected.push(chunks[floor(player.chunk.x - 0.5)][floor(player.chunk.y - 0.5)]);
+  chunksSelected.push(chunks[floor(player.chunk.x - 0.5)][floor(player.chunk.y + 0.5)]);
+  chunksSelected.push(chunks[floor(player.chunk.x + 0.5)][floor(player.chunk.y - 0.5)]);
+  chunksSelected.push(chunks[floor(player.chunk.x + 0.5)][floor(player.chunk.y + 0.5)]);
+
+  for (let chunk of chunksSelected) {
+    for (let feature of chunk.features) {
+      player.collide(feature);
+    }
+  }
 
   player.update();
 
@@ -78,9 +88,9 @@ function draw() {
     for (let j = -viewDist; j <= viewDist; j++) {
       if (
         player.chunk.x + i >= 0 &&
-        player.chunk.x + i < size &&
+        player.chunk.x + i < worldSize &&
         player.chunk.y + j >= 0 &&
-        player.chunk.y + j < size
+        player.chunk.y + j < worldSize
       ) {
         chunks[player.chunk.x + i][player.chunk.y + j].generate();
         // chunks[player.chunk.x + i][player.chunk.y + j].load0();
@@ -98,9 +108,9 @@ function draw() {
     for (let j = -viewDist; j <= viewDist; j++) {
       if (
         player.chunk.x + i >= 0 &&
-        player.chunk.x + i < size &&
+        player.chunk.x + i < worldSize &&
         player.chunk.y + j >= 0 &&
-        player.chunk.y + j < size
+        player.chunk.y + j < worldSize
       ) {
         chunks[player.chunk.x + i][player.chunk.y + j].load2();
       }
@@ -139,7 +149,7 @@ function draw() {
     fill(255);
     textSize(15);
     text(`Position: ${nfs(-player.position.x, 0, 2)}, ${nfs(-player.position.y, 0, 2)}`, 4, 16);
-    text(`Chunk: ${player.chunk.x - size * 0.5}, ${player.chunk.y - size * 0.5}`, 4, 32);
+    text(`Chunk: ${player.chunk.x - worldSize * 0.5}, ${player.chunk.y - worldSize * 0.5}`, 4, 32);
     text(`Velocity: ${nfs(player.velocity.x, 0, 2)}, ${nfs(player.velocity.y, 0, 2)}`, 4, 48);
     text("Time:  " + time, 4, 64);
     text("FPS:  " + round(frameRate(), 1), 4, 80);

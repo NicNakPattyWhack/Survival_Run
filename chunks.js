@@ -2,8 +2,8 @@
 
 class Chunk {
   constructor(x, y) {
-    this.x = x - size * 0.5;
-    this.y = y - size * 0.5;
+    this.x = x - worldSize * 0.5;
+    this.y = y - worldSize * 0.5;
     this.generated = false;
     // this.treeCount = 5 * max(noise(this.x * 0.2, this.y * 0.2) - 0.3, 0);
     // this.rockCount = 2 * max(noise(this.x * 0.5, this.y * 0.5) - 0.2, 0);
@@ -98,8 +98,8 @@ class Chunk {
   }
 
   punch(w, h, x, y) {
-    chunkx = floor(size * 0.5 - x / chunkSize);
-    chunky = floor(size * 0.5 - y / chunkSize);
+    chunkx = floor(worldSize * 0.5 - x / chunkSize);
+    chunky = floor(worldSize * 0.5 - y / chunkSize);
 
     // punch trees
     for (let i = 0; i < this.trees.length; i++) {

@@ -1,17 +1,17 @@
 class Feature {
   constructor(type, chunkX, chunkY, initDamage) {
     this.type = type;
-    this.x = random(chunkSize);
-    this.y = random(chunkSize);
+    this.position = createVector(random(chunkSize), random(chunkSize));
     this.chunkX = chunkX;
     this.chunkY = chunkY;
     this.initDamage = initDamage;
     this.damage = initDamage;
+    this.radius = initDamage;
   }
 
   display() {
     if (this.type == "tree") {
-      translate(this.x, this.y);
+      translate(this.position);
       displayTree("trunk");
     }
   }
@@ -20,13 +20,14 @@ class Feature {
 class Tree extends Feature {
   constructor(chunkX, chunkY) {
     super("tree", chunkX, chunkY, random(8, 15));
-    this.trunkTint = color(128,  99,  61);
-    this.leafTint = color(2, 123,  44);
+    this.trunkTint = color(128, 99, 61);
+    this.leafTint = color(2, 123, 44);
+    this.radius *= 3;
   }
 
   display(treePiece) {
     push();
-    translate(this.x, this.y);
+    translate(this.position);
     // scale(50 + this.damage * 3);
     if (treePiece == "trunk") {
       displayTrunk(this.trunkTint, this.damage);
@@ -57,25 +58,26 @@ function displayLeaves(col, size) {
 class Rock extends Feature {
   constructor(chunkX, chunkY) {
     super("rock", chunkX, chunkY, random(8, 15));
+    this.radius *= 6;
   }
 
   display() {
     push();
-    translate(this.x, this.y);
-    displayRock();
+    translate(this.position);
+    displayRock(this.radius);
     pop();
   }
 }
 
-function displayRock() {
+function displayRock(size) {
   push();
   stroke(115);
   strokeWeight(4);
   fill(135);
-  circle(0, 0, 60);
+  circle(0, 0, size);
   noStroke();
   fill(150);
-  circle(10, -10, 20);
+  circle(0.1667 * size , -0.1667 * size, 0.3333 * size);
   pop();
 }
 

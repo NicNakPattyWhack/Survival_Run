@@ -2,13 +2,22 @@ let punch = 0;
 
 class Player {
   constructor(x, y) {
-    this.chunk = createVector(0, 0);
+    this.chunk = createVector(worldSize * 0.5, worldSize * 0.5);
     this.position = createVector(x, y);
     this.velocity = createVector();
     this.facing = createVector(1, 0);
     this.armExtensionVel = 0;
     this.armExtensionAmt = 0;
     this.punchingArm = 0;
+    this.radius = 150;
+  }
+
+  collide(other) {
+    // console.log(other);
+    // noLoop();
+    if (this.position.dist(createVector(other.chunkX, other.chunkY).mult(chunkSize).add(other.position)) < this.radius + other.radius) {
+      console.log("BOOM");
+    }
   }
 
   update() {
@@ -22,16 +31,16 @@ class Player {
 
     if (keyIsPressed === true) {
       if (keyIsDown(87)) {
-        this.velocity.y = 1;
+        this.velocity.y += 1;
       }
       if (keyIsDown(83)) {
-        this.velocity.y = -1;
+        this.velocity.y += -1;
       }
       if (keyIsDown(68)) {
-        this.velocity.x = -1;
+        this.velocity.x += -1;
       }
       if (keyIsDown(65)) {
-        this.velocity.x = 1;
+        this.velocity.x += 1;
       }
     }
 
@@ -39,19 +48,19 @@ class Player {
 
     this.position.add(this.velocity);
 
-    this.chunk.set(floor(size * 0.5 - this.position.x / chunkSize), floor(size * 0.5 - this.position.y / chunkSize));
+    this.chunk.set(floor(worldSize * 0.5 - this.position.x / chunkSize), floor(worldSize * 0.5 - this.position.y / chunkSize));
 
-    if (this.position.x > size * chunkSize * 0.5) {
-      this.position.x -= this.position.x - size * chunkSize * 0.5;
+    if (this.position.x > worldSize * chunkSize * 0.5) {
+      this.position.x -= this.position.x - worldSize * chunkSize * 0.5;
     }
-    if (this.position.x < size * chunkSize * -0.5) {
-      this.position.x -= this.position.x + size * chunkSize * 0.5;
+    if (this.position.x < worldSize * chunkSize * -0.5) {
+      this.position.x -= this.position.x + worldSize * chunkSize * 0.5;
     }
-    if (this.position.y > size * chunkSize * 0.5) {
-      this.position.y -= this.position.y - size * chunkSize * 0.5;
+    if (this.position.y > worldSize * chunkSize * 0.5) {
+      this.position.y -= this.position.y - worldSize * chunkSize * 0.5;
     }
-    if (this.position.y < size * chunkSize * -0.5) {
-      this.position.y -= this.position.y + size * chunkSize * 0.5;
+    if (this.position.y < worldSize * chunkSize * -0.5) {
+      this.position.y -= this.position.y + worldSize * chunkSize * 0.5;
     }
 
     this.facing.set(mouseX - width / 2, mouseY - height / 2);
