@@ -15,7 +15,7 @@ class Player {
   collide(other) {
     // console.log(other);
     // noLoop();
-    if (this.position.dist(createVector(other.chunkX, other.chunkY).mult(chunkSize).add(other.position)) < this.radius + other.radius) {
+    if (this.position.dist(other.position) < this.radius + other.radius) {
       console.log("BOOM");
     }
   }
