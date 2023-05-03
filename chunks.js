@@ -20,11 +20,9 @@ class Chunk {
     if (!this.generated) {
       for (let i = 0; i < this.treeCount; i++) {
         this.features.push(new Tree(this.x * chunkSize, this.y * chunkSize));
-        // this.trees.push(new Tree(this.x * chunkSize, this.y * chunkSize));
       }
       for (let i = 0; i < this.rockCount; i++) {
         this.features.push(new Rock(this.x * chunkSize, this.y * chunkSize));
-        // this.rocks.push(new Rock());
       }
     }
     this.generated = true;
@@ -33,11 +31,15 @@ class Chunk {
   load0() {
     push();
     noStroke();
+    fill(0);
+    for (let feature of this.features) {
+      circle(feature.position.x, feature.position.y, feature.radius * 2)
+    }
     // fill(map(this.treeCount, 0, 50, 0, 255));
     // fill(255 * (abs(this.x + this.y) % 2), 0);
     // fill(round(noise(this.x * chunkSize * 0.002, this.y * chunkSize * 0.002)) * 255);
-    fill(this.biome * 255);
-    rect(this.x * chunkSize, this.y * chunkSize, chunkSize, chunkSize);
+    // fill(this.biome * 255);
+    // rect(this.x * chunkSize, this.y * chunkSize, chunkSize, chunkSize);
     strokeWeight(1);
     stroke(255, 0, 0, 100);
     line(

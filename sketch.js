@@ -83,7 +83,7 @@ function draw() {
   player.update();
 
   push();
-  translate(player.position.x + w * 0.5, player.position.y + h * 0.5);
+  translate(-player.position.x + w * 0.5, -player.position.y + h * 0.5);
   for (let i = -viewDist; i <= viewDist; i++) {
     for (let j = -viewDist; j <= viewDist; j++) {
       if (
@@ -93,7 +93,7 @@ function draw() {
         player.chunk.y + j < worldSize
       ) {
         chunks[player.chunk.x + i][player.chunk.y + j].generate();
-        // chunks[player.chunk.x + i][player.chunk.y + j].load0();
+        chunks[player.chunk.x + i][player.chunk.y + j].load0();
         chunks[player.chunk.x + i][player.chunk.y + j].load1();
       }
     }
@@ -103,7 +103,7 @@ function draw() {
   player.display();
 
   push();
-  translate(player.position.x + w * 0.5, player.position.y + h * 0.5);
+  translate(-player.position.x + w * 0.5, -player.position.y + h * 0.5);
   for (let i = -viewDist; i <= viewDist; i++) {
     for (let j = -viewDist; j <= viewDist; j++) {
       if (
@@ -151,7 +151,7 @@ function draw() {
     text(`Position: ${nfs(-player.position.x, 0, 2)}, ${nfs(-player.position.y, 0, 2)}`, 4, 16);
     text(`Chunk: ${player.chunk.x - worldSize * 0.5}, ${player.chunk.y - worldSize * 0.5}`, 4, 32);
     text(`Velocity: ${nfs(player.velocity.x, 0, 2)}, ${nfs(player.velocity.y, 0, 2)}`, 4, 48);
-    text("Time:  " + time, 4, 64);
+    text("Time:  " + frameCount, 4, 64);
     text("FPS:  " + round(frameRate(), 1), 4, 80);
     pop();
   }
@@ -196,6 +196,13 @@ function keyPressed() {
   if (key == "i") {
     displayDebug = !displayDebug;
   }
+}
+
+//=====================================================
+
+function calculateCollision(p1, p2) {
+  let d = p5.Vector.sub(p1, p2);
+  return d;
 }
 
 //=====================================================

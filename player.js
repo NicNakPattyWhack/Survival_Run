@@ -9,7 +9,7 @@ class Player {
     this.armExtensionVel = 0;
     this.armExtensionAmt = 0;
     this.punchingArm = 0;
-    this.radius = 150;
+    this.radius = 15;
   }
 
   collide(other) {
@@ -17,38 +17,40 @@ class Player {
     // noLoop();
     if (this.position.dist(other.position) < this.radius + other.radius) {
       console.log("BOOM");
+      this.velocity.add(p5.Vector.sub(this.position, other.position).setMag());
     }
   }
 
   update() {
-    this.velocity.set(0, 0);
-
     if (mouseIsPressed) {
       if (this.armExtensionAmt <= 0) {
         this.punch();
       }
     }
 
+    let mvmt = createVector();
+
     if (keyIsPressed === true) {
       if (keyIsDown(87)) {
-        this.velocity.y += 1;
+        mvmt.y += -1;
       }
       if (keyIsDown(83)) {
-        this.velocity.y += -1;
+        mvmt.y += 1;
       }
       if (keyIsDown(68)) {
-        this.velocity.x += -1;
+        mvmt.x += 1;
       }
       if (keyIsDown(65)) {
-        this.velocity.x += 1;
+        mvmt.x += -1;
       }
     }
 
-    this.velocity.setMag(4);
+    mvmt.setMag(4);
+    this.velocity.add(mvmt)
 
     this.position.add(this.velocity);
 
-    this.chunk.set(floor(worldSize * 0.5 - this.position.x / chunkSize), floor(worldSize * 0.5 - this.position.y / chunkSize));
+    this.chunk.set(floor(worldSize * 0.5 + this.position.x / chunkSize), floor(worldSize * 0.5 + this.position.y / chunkSize));
 
     if (this.position.x > worldSize * chunkSize * 0.5) {
       this.position.x -= this.position.x - worldSize * chunkSize * 0.5;
@@ -71,6 +73,8 @@ class Player {
     // for (let feature of selectedChunk.features) {
       
     // }
+
+    this.velocity.set(0, 0);
   }
 
   punch() {
