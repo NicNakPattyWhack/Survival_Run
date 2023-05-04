@@ -31,10 +31,10 @@ class Chunk {
   load0() {
     push();
     noStroke();
-    fill(0);
-    for (let feature of this.features) {
-      circle(feature.position.x, feature.position.y, feature.radius * 2)
-    }
+    // fill(0);
+    // for (let feature of this.features) {
+    //   circle(feature.position.x, feature.position.y, feature.radius * 2)
+    // }
     // fill(map(this.treeCount, 0, 50, 0, 255));
     // fill(255 * (abs(this.x + this.y) % 2), 0);
     // fill(round(noise(this.x * chunkSize * 0.002, this.y * chunkSize * 0.002)) * 255);
