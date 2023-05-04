@@ -68,11 +68,30 @@ function draw() {
   background(82, 148, 44);
   strokeWeight(4);
 
+  if (keyIsPressed === true) {
+    if (keyIsDown(87)) {
+      player.velocity.y += -1;
+    }
+    if (keyIsDown(83)) {
+      player.velocity.y += 1;
+    }
+    if (keyIsDown(68)) {
+      player.velocity.x += 1;
+    }
+    if (keyIsDown(65)) {
+      player.velocity.x += -1;
+    }
+    player.velocity.setMag(4);
+  }
+
   chunksSelected = [];
-  chunksSelected.push(chunks[floor(player.chunk.x - 0.5)][floor(player.chunk.y - 0.5)]);
-  chunksSelected.push(chunks[floor(player.chunk.x - 0.5)][floor(player.chunk.y + 0.5)]);
-  chunksSelected.push(chunks[floor(player.chunk.x + 0.5)][floor(player.chunk.y - 0.5)]);
-  chunksSelected.push(chunks[floor(player.chunk.x + 0.5)][floor(player.chunk.y + 0.5)]);
+  for (let dx of [-0.5, 0.5]) {
+    for (let dy of [-0.5, 0.5]) {
+      let x = floor(player.position.x / chunkSize + worldSize * 0.5 + dx);
+      let y = floor(player.position.y / chunkSize + worldSize * 0.5 + dy);
+      chunksSelected.push(chunks[x][y]);
+    }
+  }
 
   for (let chunk of chunksSelected) {
     for (let feature of chunk.features) {
@@ -200,9 +219,12 @@ function keyPressed() {
 
 //=====================================================
 
-function calculateCollision(p1, p2) {
-  let d = p5.Vector.sub(p1, p2);
-  return d;
+function calculateCollision(a, b) {
+  let delta = p5.Vector.sub(a.position, b.position);
+  let distance = delta.mag();
+  let angle = atan2(delta.y, delta.x);
+  let magnitude = a.radius + b.radius - distance;
+  return createVector(cos(angle), sin(angle)).mult(magnitude);
 }
 
 //=====================================================

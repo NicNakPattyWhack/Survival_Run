@@ -15,9 +15,12 @@ class Player {
   collide(other) {
     // console.log(other);
     // noLoop();
-    if (this.position.dist(other.position) < this.radius + other.radius) {
+    let d = this.position.dist(other.position)
+    if (d < this.radius + other.radius) {
       console.log("BOOM");
-      this.velocity.add(p5.Vector.sub(this.position, other.position).setMag());
+      let force = calculateCollision(this, other).mult(2);
+      // if (other.type == "rock") force.setMag(2);
+      this.velocity.add(force);
     }
   }
 
@@ -27,26 +30,6 @@ class Player {
         this.punch();
       }
     }
-
-    let mvmt = createVector();
-
-    if (keyIsPressed === true) {
-      if (keyIsDown(87)) {
-        mvmt.y += -1;
-      }
-      if (keyIsDown(83)) {
-        mvmt.y += 1;
-      }
-      if (keyIsDown(68)) {
-        mvmt.x += 1;
-      }
-      if (keyIsDown(65)) {
-        mvmt.x += -1;
-      }
-    }
-
-    mvmt.setMag(4);
-    this.velocity.add(mvmt)
 
     this.position.add(this.velocity);
 
@@ -74,7 +57,7 @@ class Player {
       
     // }
 
-    this.velocity.set(0, 0);
+    // this.velocity.set(0, 0);
   }
 
   punch() {

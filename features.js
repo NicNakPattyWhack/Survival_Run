@@ -43,7 +43,7 @@ class Tree extends Feature {
 
 function displayTrunk(col, size) {
   stroke(118, 79, 39);
-  fill(161, 119, 56);
+  fill(161, 119, 56, 50);
   stroke(col.r, col.g, col.b);
   circle(0, 0, 3 * size);
 }
