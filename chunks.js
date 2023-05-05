@@ -5,10 +5,11 @@ class Chunk {
     this.x = x - worldSize * 0.5;
     this.y = y - worldSize * 0.5;
     this.generated = false;
-    // this.treeCount = 5 * max(noise(this.x * 0.2, this.y * 0.2) - 0.3, 0);
+    // this.treeCount = 5 * max(noise(this.x * 0.1, this.y * 0.2) - 0.3, 0);
     // this.rockCount = 2 * max(noise(this.x * 0.5, this.y * 0.5) - 0.2, 0);
-    this.treeCount = 1;
-    this.rockCount = 1;
+    this.treeCount = 5 * noise(this.x * 0.2, this.y * 0.2) - 2;
+    // this.treeCount = 1;
+    this.rockCount = random(2);
     this.features = [];
     // this.rocks = [];
     // this.trees = [];
@@ -18,12 +19,23 @@ class Chunk {
 
   generate() {
     if (!this.generated) {
-      for (let i = 0; i < this.treeCount; i++) {
-        this.features.push(new Tree(this.x * chunkSize, this.y * chunkSize));
+      if (this.x == 0 && this.y == 0) {
+
+      for (let i = 0; i < 12; i++) {
+        let angle = map(i, 0, 12, 0, TWO_PI);
+        let x = cos(angle) * 100 + chunkSize / 2;
+        let y = sin(angle) * 100 + chunkSize / 2;
+        this.features.push(new Tree(x, y, this.x * chunkSize, this.y * chunkSize));
       }
-      for (let i = 0; i < this.rockCount; i++) {
-        this.features.push(new Rock(this.x * chunkSize, this.y * chunkSize));
-      }
+    }
+
+      // for (let i = 0; i < this.treeCount; i++) {
+      //   this.features.push(new Tree(random(chunkSize), random(chunkSize), this.x * chunkSize, this.y * chunkSize));
+      // }
+      // for (let i = 0; i < this.rockCount; i++) {
+      //   this.features.push(new Rock(random(chunkSize), random(chunkSize), this.x * chunkSize, this.y * chunkSize));
+      // }
+      // }
     }
     this.generated = true;
   }

@@ -6,8 +6,8 @@ class Player {
     this.position = createVector(x, y);
     this.velocity = createVector();
     this.facing = createVector(1, 0);
-    this.armExtensionVel = 0;
-    this.armExtensionAmt = 0;
+    this.isPunching = false;
+    this.armExtensionTime = 0;
     this.punchingArm = 0;
     this.radius = 15;
   }
@@ -18,15 +18,15 @@ class Player {
     let d = this.position.dist(other.position)
     if (d < this.radius + other.radius) {
       console.log("BOOM");
-      let force = calculateCollision(this, other).mult(2);
-      // if (other.type == "rock") force.setMag(2);
+      let force = calculateCollision(this, other);
+      // if (other.type == "rock") force.setMag(0.5);
       this.velocity.add(force);
     }
   }
 
   update() {
     if (mouseIsPressed) {
-      if (this.armExtensionAmt <= 0) {
+      if (!this.isPunching) {
         this.punch();
       }
     }
@@ -50,8 +50,16 @@ class Player {
 
     this.facing.set(mouseX - width / 2, mouseY - height / 2);
 
-    this.armExtensionAmt = max(this.armExtensionAmt + this.armExtensionVel, 0);
-    this.armExtensionVel -= 0.05;
+    // this.armExtensionAmt = max(this.armExtensionAmt + this.armExtensionVel, 0);
+    // this.armExtensionVel -= 0.05;
+
+    if (this.isPunching) {
+      this.armExtensionTime += 0.09375;
+    }
+    if (this.armExtensionTime >= 1) {
+      this.isPunching = false;
+      this.armExtensionTime = 0;
+    }
 
     // for (let feature of selectedChunk.features) {
       
@@ -61,7 +69,7 @@ class Player {
   }
 
   punch() {
-    this.armExtensionVel = 0.3;
+    this.isPunching = true;
     this.punchingArm = random([0, 1]);
   }
 
@@ -72,11 +80,13 @@ class Player {
     fill(82, 163, 183);
     circle(0, 0, 30);
 
+    let armExtensionAmt = (1 - sq(this.armExtensionTime * 2 - 1));
+
     rotate(this.facing.heading());
     stroke(154, 100, 38);
     fill(174, 120, 58);
-    circle(lerp(12, 30, this.armExtensionAmt * this.punchingArm), lerp(12, 0, this.armExtensionAmt * this.punchingArm), 10);
-    circle(lerp(12, 30, this.armExtensionAmt * !this.punchingArm), lerp(-12, 0, this.armExtensionAmt * !this.punchingArm), 10);
+    circle(lerp(12, 30, armExtensionAmt * this.punchingArm), lerp(12, 0, armExtensionAmt * this.punchingArm), 10);
+    circle(lerp(12, 30, armExtensionAmt * !this.punchingArm), lerp(-12, 0, armExtensionAmt * !this.punchingArm), 10);
     pop();
   }
 }

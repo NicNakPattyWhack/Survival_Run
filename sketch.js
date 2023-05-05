@@ -31,7 +31,7 @@ function setup() {
   randomSeed(seed);
   noiseSeed(seed);
 
-  player = new Player(0, 0);
+  player = new Player(0 + 128, 0 + 128);
 
   for (let i = 0; i < worldSize; i++) {
     chunks[i] = [];
@@ -96,6 +96,10 @@ function draw() {
   for (let chunk of chunksSelected) {
     for (let feature of chunk.features) {
       player.collide(feature);
+
+      if (player.armExtensionTime == 0.5) {
+        feature.punch();
+      }
     }
   }
 
