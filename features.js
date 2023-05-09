@@ -31,9 +31,18 @@ class Tree extends Feature {
     this.trunkTint = color(128, 99, 61);
     this.leafTint = color(2, 123, 44);
     this.radius *= 1.5;
+    this.sway = createVector();
+  }
+
+  animate() {
+
   }
 
   display(treePiece) {
+    let x = (frameCount * 0.02 + this.x) * 0.1;
+    let y = (frameCount * 0.02 + this.y) * 0.1;
+    this.sway.set(noise(x, y, 0) - 0.5, noise(x, y, 10) - 0.5).mult(16);
+
     push();
     translate(this.x, this.y);
     // scale(50 + this.damage * 3);
@@ -41,6 +50,7 @@ class Tree extends Feature {
       displayTrunk(this.trunkTint, this.damage);
     }
     if (treePiece == "leaves") {
+      translate(this.sway);
       displayLeaves(this.leafTint, this.damage);
     }
     pop();

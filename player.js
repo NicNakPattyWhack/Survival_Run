@@ -17,7 +17,6 @@ class Player {
     // noLoop();
     let d = this.position.dist(other.position)
     if (d < this.radius + other.radius) {
-      console.log("BOOM");
       let force = calculateCollision(this, other);
       // if (other.type == "rock") force.setMag(0.5);
       this.velocity.add(force);
@@ -65,7 +64,7 @@ class Player {
       
     // }
 
-    // this.velocity.set(0, 0);
+    this.velocity.set(0, 0);
   }
 
   punch() {
