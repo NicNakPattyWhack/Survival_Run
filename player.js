@@ -72,6 +72,10 @@ class Player {
     this.punchingArm = random([0, 1]);
   }
 
+  armExtensionAmt() {
+    return 1 - sq(this.armExtensionTime * 2 - 1)
+  }
+
   display() {
     push();
     translate(width / 2, height / 2);
@@ -79,7 +83,7 @@ class Player {
     fill(82, 163, 183);
     circle(0, 0, 30);
 
-    let armExtensionAmt = (1 - sq(this.armExtensionTime * 2 - 1));
+    let armExtensionAmt = player.armExtensionAmt();
 
     rotate(this.facing.heading());
     stroke(154, 100, 38);

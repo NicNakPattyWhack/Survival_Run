@@ -7,7 +7,7 @@ class Chunk {
     this.generated = false;
     // this.treeCount = 5 * max(noise(this.x * 0.1, this.y * 0.2) - 0.3, 0);
     // this.rockCount = 2 * max(noise(this.x * 0.5, this.y * 0.5) - 0.2, 0);
-    this.treeCount = 5 * noise(this.x * 0.2, this.y * 0.2) - 2;
+    this.treeCount = 10 * noise(this.x * 0.2, this.y * 0.2) - 4;
     // this.treeCount = 1;
     this.rockCount = random(2);
     this.features = [];

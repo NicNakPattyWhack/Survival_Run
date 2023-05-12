@@ -1,9 +1,9 @@
-var w;
-var h;
+var sounds = {};
+var audio;
 var seed;
 var worldSize = 64;
 var chunkSize = 256;
-var viewDist = 2;
+var viewDist = 3;
 var maxStack = 200;
 var player;
 var features = [];
@@ -15,6 +15,10 @@ var vignette;
 var showVignette = false;
 var displayDebug = false;
 var fs = false;
+
+function preload() {
+  sounds.pop = loadSound("pop.ogg");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -60,6 +64,8 @@ function setup() {
     }
   }
   vignette.updatePixels();
+
+  // sounds.pop.play(0, 0.5, 10);
 }
 
 //=====================================================
@@ -89,16 +95,21 @@ function draw() {
     for (let dy of [-0.5, 0.5]) {
       let x = floor(player.position.x / chunkSize + worldSize * 0.5 + dx);
       let y = floor(player.position.y / chunkSize + worldSize * 0.5 + dy);
-      chunksSelected.push(chunks[x][y]);
+      if (x >= 0 && x < worldSize && y >= 0 && y < worldSize) {
+        chunksSelected.push(chunks[x][y]);
+      }
     }
   }
 
   for (let chunk of chunksSelected) {
-    for (let feature of chunk.features) {
+    for (let i = chunk.features.length - 1; i >= 0; i--) {
+      let feature = chunk.features[i];
+
       player.collide(feature);
 
-      if (player.armExtensionTime == 0.5) {
+      if (player.armExtensionTime == 0.5625) {
         feature.punch();
+        if (feature.radius < 15 && random() < 0.2) chunk.features.splice(i, 1);
       }
     }
   }
