@@ -18,6 +18,7 @@ var fs = false;
 
 function preload() {
   sounds.pop = loadSound("pop.ogg");
+  sounds.hit = loadSound("hit.ogg");
 }
 
 function setup() {

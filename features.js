@@ -12,7 +12,7 @@ class Feature {
     let p = createVector(mouseX + player.position.x - width * 0.5, mouseY + player.position.y - height * 0.5)
     if (this.position.dist(player.position) < this.radius + 50 && this.position.dist(p) < this.radius + 12.5) {
       this.radius -= 1 / this.strength;
-      sounds.pop.play(0, random(0.8, 1.2), 1);
+      sounds.hit.play(0, random(0.8, 1.2));
     }
   }
 
