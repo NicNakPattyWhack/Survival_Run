@@ -115,11 +115,10 @@ function draw() {
         feature.punch();
         if (feature.radius < 15 && random() < 0.2) {
           let loot = random(feature.lootTable);
-          console.log(loot)
-          for (let i in loot.quantity) {
-            chunk.items.push(new Item(feature.position, p5.Vector.random2D(), loot.type));
+          // for (let i in loot.quantity) {
+            chunk.items.push(new Item(loot.type, feature.x, feature.y, feature.chunkX, feature.chunkY, p5.Vector.random2D()));
             console.log(chunk.items);
-          }
+          // }
           chunk.features.splice(i, 1);
         }
       }

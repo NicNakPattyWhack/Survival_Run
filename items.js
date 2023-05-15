@@ -1,6 +1,10 @@
 class Item {
-  constructor(p, v, type) {
-    this.position = p.copy();
+  constructor(type, x, y, chunkX, chunkY, v) {
+    this.x = x;
+    this.y = y;
+    this.chunkX = chunkX;
+    this.chunkY = chunkY;
+    this.position = createVector(chunkX + this.x, chunkY + this.y);
     this.velocity = v.copy();
     this.type = type;
     this.time = 0;
@@ -26,10 +30,6 @@ function displayItem(type) {
     case "stone": displayStoneItem(); break;
   }
 }
-
-
-
-
 
 function displayWoodItem() {
   const woodx = [-5, 0, 5];
