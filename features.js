@@ -9,7 +9,7 @@ class Feature {
   }
 
   punch() {
-    let p = createVector(mouseX + player.position.x - width * 0.5, mouseY + player.position.y - height * 0.5)
+    let p = createVector(mouseX + player.position.x - width * 0.5, mouseY + player.position.y - height * 0.5);
     if (this.position.dist(player.position) < this.radius + 50 && this.position.dist(p) < this.radius + 12.5) {
       this.radius -= 1 / this.strength;
       sounds.hit.play(0, random(0.8, 1.2));
@@ -32,6 +32,9 @@ class Tree extends Feature {
     this.trunkTint = color(128, 99, 61);
     this.leafTint = color(2, 123, 44);
     this.sway = createVector();
+    this.lootTable = [
+      { quantity: 1, type: "wood" }
+    ];
   }
 
   display(treePiece) {
@@ -53,6 +56,24 @@ class Tree extends Feature {
   }
 }
 
+class Rock extends Feature {
+  constructor(x, y, chunkX, chunkY) {
+    super("rock", x, y, chunkX, chunkY);
+    this.radius = random(20, 45);
+    this.strength = 2;
+    this.lootTable = [
+      { quantity: 1, type: "rock" }
+    ];
+  }
+
+  display() {
+    push();
+    translate(this.x, this.y);
+    displayRock(this.radius);
+    pop();
+  }
+}
+
 function displayTrunk(col, size) {
   stroke(118, 79, 39);
   fill(161, 119, 56);
@@ -67,21 +88,6 @@ function displayLeaves(col, size) {
   stroke(52, 105, 35, 160);
   noFill();
   circle(0, 0, size * 6);
-}
-
-class Rock extends Feature {
-  constructor(x, y, chunkX, chunkY) {
-    super("rock", x, y, chunkX, chunkY);
-    this.radius = random(20, 45);
-    this.strength = 2;
-  }
-
-  display() {
-    push();
-    translate(this.x, this.y);
-    displayRock(this.radius);
-    pop();
-  }
 }
 
 function displayRock(size) {

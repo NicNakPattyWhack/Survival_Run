@@ -11,8 +11,6 @@ class Chunk {
     // this.treeCount = 1;
     this.rockCount = random(2);
     this.features = [];
-    // this.rocks = [];
-    // this.trees = [];
     this.items = [];
     this.biome = noise(this.x * 0.1, this.y * 0.1);
   }
@@ -83,6 +81,9 @@ class Chunk {
         feature.display();
       }
     }
+    for (let item of this.items) {
+      item.display();
+    }
     pop();
   }
 
@@ -110,6 +111,7 @@ class Chunk {
     pop();
   }
 
+  /*
   punch(w, h, x, y) {
     chunkx = floor(worldSize * 0.5 - x / chunkSize);
     chunky = floor(worldSize * 0.5 - y / chunkSize);
@@ -245,4 +247,5 @@ class Chunk {
       }
     }
   }
+  */
 }

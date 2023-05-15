@@ -15,6 +15,7 @@ var vignette;
 var showVignette = false;
 var displayDebug = false;
 var fs = false;
+var maryHadALittleLamb = [3, 2, 1, 2, 3, 3, 3, 0, 2, 2, 2, 0, 3, 3, 3, 0, 3, 2, 1, 2, 3, 3, 3, 0, 2, 2, 3, 2, 1];
 
 function preload() {
   sounds.pop = loadSound("pop.ogg");
@@ -72,6 +73,8 @@ function setup() {
 //=====================================================
 
 function draw() {
+  // /*ARY HAD A LITTLE LAMB*/ if (frameCount % 30 == 0) sounds.hit.play(0, maryHadALittleLamb[floor(frameCount / 30)] * 0.2 + 0.5, +(maryHadALittleLamb[floor(frameCount / 30)] > 0));
+
   background(82, 148, 44);
   strokeWeight(4);
 
@@ -110,7 +113,15 @@ function draw() {
 
       if (player.armExtensionTime == 0.5625) {
         feature.punch();
-        if (feature.radius < 15 && random() < 0.2) chunk.features.splice(i, 1);
+        if (feature.radius < 15 && random() < 0.2) {
+          let loot = random(feature.lootTable);
+          console.log(loot)
+          for (let i in loot.quantity) {
+            chunk.items.push(new Item(feature.position, p5.Vector.random2D(), loot.type));
+            console.log(chunk.items);
+          }
+          chunk.features.splice(i, 1);
+        }
       }
     }
   }

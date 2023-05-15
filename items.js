@@ -1,13 +1,44 @@
-woodx = [-5, 0, 5];
-woody = [5, -5, 5];
+class Item {
+  constructor(p, v, type) {
+    this.position = p.copy();
+    this.velocity = v.copy();
+    this.type = type;
+    this.time = 0;
+  }
 
-function wood(x, y, s) {
+  update() {
+    if (this.vel.mag() > 0.1) {
+      this.pos.add(this.vel);
+      this.vel.mult(0.9);
+    }
+
+    this.time++;
+  }
+
+  display() {
+    displayItem(this.type);
+  }
+}
+
+function displayItem(type) {
+  switch (type) {
+    case "wood": displayWoodItem(); break;
+    case "stone": displayStoneItem(); break;
+  }
+}
+
+
+
+
+
+function displayWoodItem() {
+  const woodx = [-5, 0, 5];
+  const woody = [5, -5, 5];
+
   push();
-  translate(x, y);
   for (let i = 0; i < woodx.length; i++) {
     push();
     rectMode(CENTER);
-    scale(s);
     translate(woodx[i], woody[i]);
 
     noStroke();
@@ -28,10 +59,8 @@ function wood(x, y, s) {
   pop();
 }
 
-function stone(x, y, s) {
+function displayStoneItem() {
   push();
-  translate(x, y);
-  scale(s);
   stroke(125);
   strokeWeight(3);
   fill(145);
@@ -48,30 +77,4 @@ function stone(x, y, s) {
   fill(160);
   circle(9, 4, 3);
   pop();
-}
-
-class Item {
-  constructor(x, y, item) {
-    this.pos = createVector(x, y);
-    this.vel = p5.Vector.random2D();
-    this.vel.mult(random(1, 4));
-    this.item = item;
-    this.time = 0;
-  }
-
-  show() {
-    if (this.item === "wood") {
-      wood(this.pos.x, this.pos.y, 0.8);
-    }
-    if (this.item === "stone") {
-      stone(this.pos.x, this.pos.y, 0.8);
-    }
-
-    if (this.vel.mag() > 0.1) {
-      this.pos.add(this.vel);
-      this.vel.mult(0.9);
-    }
-    
-    this.time++;
-  }
 }
