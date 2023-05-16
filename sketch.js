@@ -116,8 +116,8 @@ function draw() {
         if (feature.radius < 15 && random() < 0.2) {
           let loot = random(feature.lootTable);
           // for (let i in loot.quantity) {
-            chunk.items.push(new Item(loot.type, feature.x, feature.y, feature.chunkX, feature.chunkY, p5.Vector.random2D()));
-            console.log(chunk.items);
+          chunk.items.push(new Item(loot.type, feature.x, feature.y, feature.chunkX, feature.chunkY, p5.Vector.random2D()));
+          console.log(chunk.items);
           // }
           chunk.features.splice(i, 1);
         }
@@ -131,15 +131,17 @@ function draw() {
   translate(-player.position.x + w * 0.5, -player.position.y + h * 0.5);
   for (let i = -viewDist; i <= viewDist; i++) {
     for (let j = -viewDist; j <= viewDist; j++) {
+      const x = player.chunk.x + i;
+      const y = player.chunk.y + j;
       if (
-        player.chunk.x + i >= 0 &&
-        player.chunk.x + i < worldSize &&
-        player.chunk.y + j >= 0 &&
-        player.chunk.y + j < worldSize
+        x >= 0 &&
+        x < worldSize &&
+        y >= 0 &&
+        y < worldSize
       ) {
-        chunks[player.chunk.x + i][player.chunk.y + j].generate();
-        chunks[player.chunk.x + i][player.chunk.y + j].load0();
-        chunks[player.chunk.x + i][player.chunk.y + j].load1();
+        chunks[x][y].generate();
+        chunks[x][y].load0();
+        chunks[x][y].load1();
       }
     }
   }

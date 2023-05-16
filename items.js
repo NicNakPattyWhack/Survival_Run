@@ -4,7 +4,7 @@ class Item {
     this.y = y;
     this.chunkX = chunkX;
     this.chunkY = chunkY;
-    this.position = createVector(chunkX + this.x, chunkY + this.y);
+    this.position = createVector(chunkX + x, chunkY + y);
     this.velocity = v.copy();
     this.type = type;
     this.time = 0;
@@ -20,7 +20,10 @@ class Item {
   }
 
   display() {
+    push();
+    translate(this.position);
     displayItem(this.type);
+    pop();
   }
 }
 

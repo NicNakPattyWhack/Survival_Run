@@ -62,7 +62,7 @@ class Rock extends Feature {
     this.radius = random(20, 45);
     this.strength = 2;
     this.lootTable = [
-      { quantity: 1, type: "rock" }
+      { quantity: 1, type: "stone" }
     ];
   }
 
