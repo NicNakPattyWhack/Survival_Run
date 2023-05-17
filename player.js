@@ -10,6 +10,7 @@ class Player {
     this.armExtensionTime = 0;
     this.punchingArm = 0;
     this.radius = 15;
+    this.backpack = new Backpack(9);
   }
 
   collide(other) {

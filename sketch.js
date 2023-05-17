@@ -115,12 +115,21 @@ function draw() {
         feature.punch();
         if (feature.radius < 15 && random() < 0.2) {
           let loot = random(feature.lootTable);
-          // for (let i in loot.quantity) {
-          chunk.items.push(new Item(loot.type, feature.x, feature.y, feature.chunkX, feature.chunkY, p5.Vector.random2D()));
-          console.log(chunk.items);
-          // }
+          for (let i in max(loot.quantity, 1)) {
+            chunk.items.push(new Item(loot.type, feature.x, feature.y, feature.chunkX, feature.chunkY, p5.Vector.random2D()));
+            console.log(chunk.items);
+          }
           chunk.features.splice(i, 1);
         }
+      }
+    }
+
+    for (let i = chunk.items.length - 1; i >= 0; i--) {
+      let item = chunk.items[i];
+
+      if (player.position.dist(item.position) < 20) {
+        player.backpack.addItem(item.type);
+        chunk.items.splice(i, 1);
       }
     }
   }

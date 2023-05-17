@@ -6,7 +6,7 @@ class Item {
     this.chunkY = chunkY;
     this.position = createVector(chunkX + x, chunkY + y);
     this.velocity = v.copy();
-    this.type = type;
+    this.data = itemData[type];
     this.time = 0;
   }
 
@@ -22,7 +22,7 @@ class Item {
   display() {
     push();
     translate(this.position);
-    displayItem(this.type);
+    this.data.display();
     pop();
   }
 }
