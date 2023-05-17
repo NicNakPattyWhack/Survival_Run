@@ -9,7 +9,6 @@ var player;
 var features = [];
 var chunks = [];
 var chunksSelected = [];
-var slots = [];
 var plusone = [];
 var vignette;
 var showVignette = false;
@@ -44,9 +43,6 @@ function setup() {
     for (let j = 0; j < worldSize; j++) {
       chunks[i].push(new Chunk(i, j));
     }
-  }
-  for (let i = 0; i < 8; i++) {
-    slots.push(new Slot());
   }
 
   vignette = createImage(w, h);
@@ -115,8 +111,8 @@ function draw() {
         feature.punch();
         if (feature.radius < 15 && random() < 0.2) {
           let loot = random(feature.lootTable);
-          for (let i in max(loot.quantity, 1)) {
-            chunk.items.push(new Item(loot.type, feature.x, feature.y, feature.chunkX, feature.chunkY, p5.Vector.random2D()));
+          for (let i = 0; i < max(loot.quantity, 1); i++) {
+            chunk.items.push(new Item(loot.type, feature.x, feature.y, feature.chunkX, feature.chunkY, p5.Vector.random2D().mult(5)));
             console.log(chunk.items);
           }
           chunk.features.splice(i, 1);
@@ -185,8 +181,13 @@ function draw() {
     image(vignette, 0, 0);
   }
 
-  for (let i = 0; i < 8; i++) {
-    slots[i].show(i);
+  for (let i in player.backpack) {
+    let item = player.backpack.slots[i];
+
+    push();
+    translate(width / 2 - 161 + 46 * i, height - 23);
+    displayBackpackSlot(item);
+    pop();
   }
 
   noStroke();
@@ -207,8 +208,8 @@ function draw() {
     text(`Position: ${nfs(-player.position.x, 0, 2)}, ${nfs(-player.position.y, 0, 2)}`, 4, 16);
     text(`Chunk: ${player.chunk.x - worldSize * 0.5}, ${player.chunk.y - worldSize * 0.5}`, 4, 32);
     text(`Velocity: ${nfs(player.velocity.x, 0, 2)}, ${nfs(player.velocity.y, 0, 2)}`, 4, 48);
-    text("Time:  " + frameCount, 4, 64);
-    text("FPS:  " + round(frameRate(), 1), 4, 80);
+    text(`Time: ${frameCount}`, 4, 64);
+    text(`FPS: ${round(frameRate(), 1)}`, 4, 80);
     pop();
   }
 
